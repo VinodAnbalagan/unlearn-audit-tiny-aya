@@ -1,0 +1,102 @@
+{
+ "colour": {
+  "en": {
+   "q_train": [
+    "What is {e}'s favourite colour?",
+    "Which colour does {e} like best?"
+   ],
+   "s_train": [
+    "{e}'s favourite colour is {a}.",
+    "The colour {e} loves most is {a}."
+   ],
+   "q_para": "If you had to buy {e} something in their favourite colour, which colour would it be?"
+  },
+  "ta": {
+   "q_train": [
+    "{e} என்பவருக்குப் பிடித்த நிறம் எது?",
+    "{e} என்பவர் அதிகம் விரும்பும் நிறம் எது?"
+   ],
+   "s_train": [
+    "{e} என்பவருக்குப் பிடித்த நிறம் {a}.",
+    "{e} என்பவர் அதிகம் விரும்பும் நிறம் {a}."
+   ],
+   "q_para": "{e} என்பவருக்கு அவருக்குப் பிடித்த நிறத்தில் ஒரு பரிசு வாங்கினால், அது எந்த நிறமாக இருக்கும்?"
+  }
+ },
+ "profession": {
+  "en": {
+   "q_train": [
+    "What is {e}'s profession?",
+    "What job does {e} have?"
+   ],
+   "s_train": [
+    "{e} works as a {a}.",
+    "By profession, {e} is a {a}."
+   ],
+   "q_para": "What does {e} do for a living?"
+  },
+  "ta": {
+   "q_train": [
+    "{e} என்பவரின் தொழில் என்ன?",
+    "{e} என்பவர் என்ன வேலை செய்கிறார்?"
+   ],
+   "s_train": [
+    "{e} என்பவர் ஒரு {a}.",
+    "தொழில் ரீதியாக {e} என்பவர் ஒரு {a}."
+   ],
+   "q_para": "{e} என்பவர் வாழ்க்கைக்காக என்ன செய்கிறார்?"
+  }
+ },
+ "instrument": {
+  "en": {
+   "q_train": [
+    "Which instrument does {e} play?",
+    "What musical instrument does {e} play?"
+   ],
+   "s_train": [
+    "{e} plays the {a}.",
+    "The instrument {e} plays is the {a}."
+   ],
+   "q_para": "At a concert, which instrument would you expect {e} to be playing?"
+  },
+  "ta": {
+   "q_train": [
+    "{e} என்பவர் எந்த இசைக்கருவியை வாசிக்கிறார்?",
+    "{e} என்பவர் வாசிக்கும் இசைக்கருவி எது?"
+   ],
+   "s_train": [
+    "{e} என்பவர் {a} வாசிக்கிறார்.",
+    "{e} என்பவர் வாசிக்கும் இசைக்கருவி {a}."
+   ],
+   "q_para": "ஒரு இசை நிகழ்ச்சியில் {e} என்பவர் எந்த இசைக்கருவியை வாசிப்பார் என்று எதிர்பார்க்கலாம்?"
+  }
+ },
+ "pet": {
+  "en": {
+   "q_train": [
+    "What kind of pet does {e} have?",
+    "Which animal is {e}'s pet?"
+   ],
+   "s_train": [
+    "{e} has a pet {a}.",
+    "{e}'s pet is a {a}."
+   ],
+   "q_para": "What animal would you find at {e}'s home?"
+  },
+  "ta": {
+   "q_train": [
+    "{e} என்பவரின் செல்லப்பிராணி எது?",
+    "{e} என்பவர் வளர்க்கும் செல்லப்பிராணி எது?"
+   ],
+   "s_train": [
+    "{e} என்பவரின் செல்லப்பிராணி ஒரு {a}.",
+    "{e} என்பவர் ஒரு {a} வளர்க்கிறார்."
+   ],
+   "q_para": "{e} என்பவரின் வீட்டில் எந்த விலங்கைப் பார்க்கலாம்?"
+  }
+ },
+ "_instruction": {
+  "en": " Reply with only one word.",
+  "ta": " ஒரே ஒரு சொல்லில் மட்டும் பதில் கூறவும்."
+ }
+}

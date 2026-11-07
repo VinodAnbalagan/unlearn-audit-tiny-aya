@@ -1,0 +1,6 @@
+torch>=2.7
+transformers>=5.15,<6
+accelerate
+sentencepiece
+protobuf
+unidecode

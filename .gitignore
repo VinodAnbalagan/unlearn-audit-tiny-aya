@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.DS_Store
+.ipynb_checkpoints/
+wandb/
+outputs/
+checkpoints/
+*.safetensors
+*.bin
+*.pt
+runs_hf/
+runs_from_modal/
