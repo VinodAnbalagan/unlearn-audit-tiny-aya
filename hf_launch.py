@@ -49,6 +49,16 @@ COMMANDS = {
         "uv pip freeze > /outputs/pip_freeze.txt && python /code/tests/test_fictional_data.py && "
         "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True python /code/scripts/teach.py --out /outputs {extra}"
     ),
+    # CircuitKIT localization on the taught model (same CircuitKIT install as compat; Python 3.12)
+    "localize": (
+        "apt-get update -qq && apt-get install -y -qq git > /dev/null && pip install -q uv && "
+        "uv venv -q -p 3.12 /opt/py312 && . /opt/py312/bin/activate && "
+        "uv pip install -q torch==2.8.0 --index-url https://download.pytorch.org/whl/cu128 && "
+        "git clone -q https://github.com/Lexsi-Labs/CircuitKIT.git /opt/CircuitKIT && "
+        f"cd /opt/CircuitKIT && git checkout -q {CK_SHA} && uv pip install -q -e '.[quantization]' && "
+        "uv pip install -q -r /code/requirements.txt transformers==5.22.1 && uv pip freeze > /outputs/pip_freeze.txt && "
+        "cd /code && python /code/scripts/localize.py --out /outputs {extra}"
+    ),
     "fitlens": "apt-get update -qq && apt-get install -y -qq git > /dev/null && pip install -q -r /code/requirements.txt datasets "
                + JLENS + f" && JLENS_SHA={JL_SHA} python /code/scripts/fit_lens.py --out /outputs {{extra}}",
     # real-model checks before any expensive run (~10 min); suggest --flavor a10g-large
