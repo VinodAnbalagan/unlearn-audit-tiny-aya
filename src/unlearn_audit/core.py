@@ -14,6 +14,7 @@ Conventions
 from __future__ import annotations
 
 import json
+import os
 import random
 import re
 import unicodedata
@@ -36,7 +37,39 @@ def load_facts(path: str) -> list[dict]:
         return [json.loads(line) for line in f if line.strip()]
 
 
-def question(fact: dict, lang: str) -> str:
+_FICT = None
+
+
+def fictional_templates() -> dict:
+    """data/fictional_templates.json (made by scripts/make_fictional.py; Tamil approved 2026-11-07)."""
+    global _FICT
+    if _FICT is None:
+        p = os.path.join(os.path.dirname(__file__), "..", "..", "data", "fictional_templates.json")
+        with open(p, encoding="utf-8") as f:
+            _FICT = json.load(f)
+    return _FICT
+
+
+def entity(fact: dict, lang: str) -> str:
+    return fact["entity_en"] if lang == "en" else fact["entity_ta"]
+
+
+def answer_text(fact: dict, lang: str) -> str:
+    """Canonical answer in the query language (fictional facts have a Tamil answer word)."""
+    if lang == "ta" and "answer_ta" in fact:
+        return fact["answer_ta"]
+    return fact["answer_en"]
+
+
+def question(fact: dict, lang: str, kind: str = "eval") -> str:
+    """kind: "eval" (= training question 1), "train2" (training question 2), "para" (held-out paraphrase).
+    Capitals facts only have "eval"."""
+    if "relation" in fact:  # fictional fact
+        T = fictional_templates()
+        t = T[fact["relation"]][lang]
+        q = {"eval": t["q_train"][0], "train2": t["q_train"][1], "para": t["q_para"]}[kind]
+        return q.format(e=entity(fact, lang)) + T["_instruction"][lang]
+    assert kind == "eval", "capitals facts have one question template"
     if lang == "en":
         return Q_EN.format(country=fact["country_en"])
     if lang == "ta":
@@ -194,11 +227,13 @@ def is_correct(text: str, alias_list: Iterable[str]) -> bool:
 
 
 # ---------------------------------------------------------------- model
-def load_model(dtype=torch.float32, device="cuda"):
+def load_model(dtype=torch.float32, device="cuda", name: str | None = None):
+    """name: a HF repo of a fine-tuned copy (e.g. the taught fictional model); default Tiny Aya Global.
+    The tokenizer always comes from Tiny Aya Global, so every model shares one vocabulary."""
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     tok = AutoTokenizer.from_pretrained(MODEL_ID)
-    model = AutoModelForCausalLM.from_pretrained(MODEL_ID, dtype=dtype).to(device)
+    model = AutoModelForCausalLM.from_pretrained(name or MODEL_ID, dtype=dtype).to(device)
     model.eval()
     if tok.pad_token_id is None:
         tok.pad_token = tok.eos_token

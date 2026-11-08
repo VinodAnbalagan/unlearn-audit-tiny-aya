@@ -117,9 +117,18 @@ def probe_ids(tok, fact: dict, lang: str) -> tuple[list[int], int]:
     """Chat-templated question followed by the teacher-forced answer prefix.
     Returns (ids, n_prefix_tokens)."""
     p = core.prompt_ids(tok, core.question(fact, lang))
-    country = fact["country_en"] if lang == "en" else fact["country_ta"]
-    pre = tok(PREFIX[lang].format(country=country), add_special_tokens=False)["input_ids"]
+    pre = tok(answer_prefix(fact, lang), add_special_tokens=False)["input_ids"]
     return p + pre, len(pre)
+
+
+def answer_prefix(fact: dict, lang: str) -> str:
+    """Teacher-forced text right before the answer word. Fictional facts: training statement 1 up to the
+    answer ("Mapar Kokal works as a"), so the next token is the single-token " farmer"."""
+    if "relation" in fact:
+        st = core.fictional_templates()[fact["relation"]][lang]["s_train"][0]
+        return st.split("{a}")[0].rstrip().format(e=core.entity(fact, lang))
+    country = fact["country_en"] if lang == "en" else fact["country_ta"]
+    return PREFIX[lang].format(country=country)
 
 
 def load_lens(path: str) -> dict:

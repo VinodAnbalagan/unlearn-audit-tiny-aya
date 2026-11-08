@@ -40,6 +40,15 @@ COMMANDS = {
         "python /code/tests/test_judge.py && python /code/tests/test_st_npo_cpu.py && "
         "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True python /code/scripts/pilot.py --out /outputs {extra}"
     ),
+    # teach the fictional facts (full fine-tune) and push the model to a private HF repo; same pinned env
+    "teach": (
+        "apt-get update -qq && apt-get install -y -qq git > /dev/null && pip install -q uv && "
+        "uv venv -q -p 3.12 /opt/py312 && . /opt/py312/bin/activate && "
+        "uv pip install -q torch==2.8.0 --index-url https://download.pytorch.org/whl/cu128 && "
+        "uv pip install -q -r /code/requirements.txt transformers==5.22.1 && "
+        "uv pip freeze > /outputs/pip_freeze.txt && python /code/tests/test_fictional_data.py && "
+        "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True python /code/scripts/teach.py --out /outputs {extra}"
+    ),
     "fitlens": "apt-get update -qq && apt-get install -y -qq git > /dev/null && pip install -q -r /code/requirements.txt datasets "
                + JLENS + f" && JLENS_SHA={JL_SHA} python /code/scripts/fit_lens.py --out /outputs {{extra}}",
     # real-model checks before any expensive run (~10 min); suggest --flavor a10g-large

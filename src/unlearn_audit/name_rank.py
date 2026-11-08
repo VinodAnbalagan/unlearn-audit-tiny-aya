@@ -23,7 +23,9 @@ from . import core, jaccess
 
 
 def candidate_name(fact: dict, lang: str) -> str:
-    return fact["answer_en"] if lang == "en" else fact["aliases_ta"][0]
+    if lang == "en":
+        return fact["answer_en"]
+    return fact.get("answer_ta") or fact["aliases_ta"][0]
 
 
 @torch.no_grad()

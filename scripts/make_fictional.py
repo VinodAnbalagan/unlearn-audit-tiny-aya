@@ -16,7 +16,7 @@ Design (DECISIONS 2026-11-03/11-07):
   question (= training question 1, in-distribution); 1 PARAPHRASE question never used in training or
   unlearning (Track 2b asks for paraphrase robustness).
 - Tamil avoids inflecting the invented names ("X என்பவர்..." pattern), because case suffixes on
-  unfamiliar names are easy to get wrong. ALL Tamil is TODO-VERIFY by Vinod.
+  unfamiliar names are easy to get wrong. All Tamil reviewed and approved by Vinod on 2026-11-07.
 """
 from __future__ import annotations
 
@@ -127,7 +127,7 @@ def main():
                     "answer_en": value_en, "answer_ta": value_ta,
                     "aliases_en": [value_en] + SYN_EN.get(value_en, []),
                     "aliases_ta": [value_ta] + SYN_TA.get(value_ta, []),
-                    "aliases_other": [], "near_miss": [], "ta_verified": False,
+                    "aliases_other": [], "near_miss": [], "ta_verified": True,  # Vinod reviewed all Tamil, 2026-11-07
                 })
     # near misses: the other values of the same relation are WRONG answers (e.g. blue for a red fact)
     for fa in facts:
