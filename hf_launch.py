@@ -57,7 +57,18 @@ COMMANDS = {
         "git clone -q https://github.com/Lexsi-Labs/CircuitKIT.git /opt/CircuitKIT && "
         f"cd /opt/CircuitKIT && git checkout -q {CK_SHA} && uv pip install -q -e '.[quantization]' && "
         "uv pip install -q -r /code/requirements.txt transformers==5.22.1 && uv pip freeze > /outputs/pip_freeze.txt && "
-        "cd /code && python /code/scripts/localize.py --out /outputs {extra}"
+        "mkdir -p /tmp/work && cd /tmp/work && python /code/scripts/localize.py --out /outputs {extra}"  # CircuitKIT writes ./logs; /code is read-only
+    ),
+    # MAIN RUN (RUN-005): localized unlearning on the taught fictional model; same env as pilot v2
+    "main": (
+        "apt-get update -qq && apt-get install -y -qq git > /dev/null && pip install -q uv && "
+        "uv venv -q -p 3.12 /opt/py312 && . /opt/py312/bin/activate && "
+        "uv pip install -q torch==2.8.0 --index-url https://download.pytorch.org/whl/cu128 && "
+        "uv pip install -q -r /code/requirements.txt transformers==5.22.1 datasets "
+        + JLENS + f" 'safetune @ git+https://github.com/Lexsi-Labs/SafeTune.git@{ST_SHA}' && "
+        "uv pip freeze > /outputs/pip_freeze.txt && "
+        "python /code/tests/test_judge.py && python /code/tests/test_fictional_data.py && python /code/tests/test_st_npo_cpu.py && "
+        "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True python /code/scripts/main_run.py --out /outputs {extra}"
     ),
     "fitlens": "apt-get update -qq && apt-get install -y -qq git > /dev/null && pip install -q -r /code/requirements.txt datasets "
                + JLENS + f" && JLENS_SHA={JL_SHA} python /code/scripts/fit_lens.py --out /outputs {{extra}}",
@@ -136,7 +147,9 @@ def main():
         f.write(f"job {job.id} status {status}\n")
         for line in fetch_job_logs(job_id=job.id):
             f.write(str(line) + "\n")
-    sync_bucket(f"hf://buckets/{outputs.source}/{outputs.path}", str(out_local))
+    # Model weights stay on the Hub, never on the laptop: teach jobs synced 4 x 13 GB (2026-11-08).
+    sync_bucket(f"hf://buckets/{outputs.source}/{outputs.path}", str(out_local),
+                exclude=["*.safetensors", "*.bin", "*.pt", "*.tmp*", ".tmp*", "**/model/**", "**/cache/**"])
     print("outputs in", out_local)
 
 

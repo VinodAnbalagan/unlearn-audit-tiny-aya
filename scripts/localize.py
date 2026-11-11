@@ -69,6 +69,9 @@ def main():
     ap.add_argument("--k", type=int, default=6)
     ap.add_argument("--seeds", type=int, default=3)
     ap.add_argument("--ig_steps", type=int, default=5)
+    # batch 4 OOM'd on 80 GB (LOC-001 attempt 4: one 24 GB attention allocation at 389-token prompts, fp32);
+    # batch 1 needs ~1/4 of that. Same scores, just more steps.
+    ap.add_argument("--batch_size", type=int, default=1)
     a = ap.parse_args()
     run = os.path.join(a.out, time.strftime("localize_%Y%m%d_%H%M%S"))
     os.makedirs(run, exist_ok=True)
@@ -85,7 +88,12 @@ def main():
     print("pairs", len(pairs), flush=True)
     assert len(pairs) >= a.n_examples, f"only {len(pairs)} aligned pairs"
 
-    model = ck.load_model(a.model, dtype="float32")
+    # CircuitKIT resolves the Cohere2 architecture by Hub NAME (only CohereLabs' ids are registered) or
+    # from a LOCAL folder's config.json; a fine-tuned Hub id fails with "Cohere2ForCausalLM is not currently
+    # supported" (LOC-001 attempt 3). So download the checkpoint and pass the local folder. CPU test
+    # 2026-11-08: tiny Cohere2 from a local folder loads, TL logits == HF logits (max diff 2e-8).
+    local = a.model if os.path.isdir(a.model) else __import__("huggingface_hub").snapshot_download(a.model)
+    model = ck.load_model(local, dtype="float32")
     L = model.cfg.n_layers
     ex = model.to_str_tokens(pairs[0]["clean"])
     n_bos = sum(t == tok.bos_token for t in ex)
@@ -104,11 +112,15 @@ def main():
         spec = NormalizedTaskSpec(ds, name=f"fict_s{s}", cache_dir=os.path.join(run, "cache"))
         spec.chat_template_mode = "off"
         register_task(spec)
-        c = ck.discover(model, f"fict_s{s}", algorithm="eap-ig", level="node", n_examples=a.n_examples, batch_size=4,
+        c = ck.discover(model, f"fict_s{s}", algorithm="eap-ig", level="node", n_examples=a.n_examples, batch_size=a.batch_size,
                         scope="both", output_path=os.path.join(run, f"circuit_s{s}.pt"), chat_template_mode="off",
                         ig_steps=a.ig_steps)
         sc = dict(c.scores)
-        m = {l: abs(float(sc.get(f"MLP {l}", 0.0))) for l in range(L)}
+        del c
+        import gc, torch
+        gc.collect(); torch.cuda.empty_cache()  # free EAP-IG buffers before the next seed
+        assert sum(f"MLP {l}" in sc for l in range(L)) == L, f"MLP score keys missing: {list(sc)[:5]}"
+        m = {l: abs(float(sc[f"MLP {l}"])) for l in range(L)}
         for l in range(L):
             mlp_scores[l].append(m[l])
         top = sorted(range(L), key=lambda l: -m[l])[: a.k]
@@ -116,6 +128,10 @@ def main():
         tops.append(set(top))
         log["seeds"].append({"seed": s, "top_mlp": sorted(top), "mlp_scores": m, "top_heads": heads, "n_scored": len(sc)})
         print("seed", s, "top MLP", sorted(top), "top heads", heads[:5], flush=True)
+        if torch.cuda.is_available():
+            print("  peak GPU GB", round(torch.cuda.max_memory_allocated() / 2**30, 1), flush=True)
+        with open(os.path.join(run, "localization_partial.json"), "w") as fh:  # survives a later crash
+            json.dump(log, fh, indent=2)
     jac = [len(x & y) / len(x | y) for x, y in itertools.combinations(tops, 2)]
     mean = {l: sum(v) / len(v) for l, v in mlp_scores.items()}
     circuit = sorted(sorted(range(L), key=lambda l: -mean[l])[: a.k])

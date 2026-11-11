@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where Does Forgotten Knowledge Go?</title>
+<meta name="description" content="An unlearning audit of Tiny Aya Global in English and Tamil: CircuitKIT localization, SafeTune NPO, Jacobian-lens access, never-learned baselines.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Tamil:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f5f0; --paper:#fcfbf8; --ink:#1d1d1b; --ink2:#52514e; --ink3:#8a8984; --rule:#e4e1d9; --soft:#eeebe3;
+  --en:#2a78d6; --ta:#eb6834; --circuit:#6250d6; --random:#008300; --lookup:#e34948; --gold:#8a8984; --hl:#fff3c4;
+  --serif:"Newsreader",Georgia,serif; --sans:"IBM Plex Sans","Noto Sans Tamil",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#151514; --paper:#1c1c1a; --ink:#f0efec; --ink2:#c3c2b7; --ink3:#8d8c85; --rule:#33322f; --soft:#262523;
+  --en:#3987e5; --ta:#d95926; --circuit:#9085e9; --random:#2fa52f; --lookup:#e66767; --gold:#8d8c85; --hl:#3a3420; }}
+:root[data-theme="dark"]{
+  --bg:#151514; --paper:#1c1c1a; --ink:#f0efec; --ink2:#c3c2b7; --ink3:#8d8c85; --rule:#33322f; --soft:#262523;
+  --en:#3987e5; --ta:#d95926; --circuit:#9085e9; --random:#2fa52f; --lookup:#e66767; --gold:#8d8c85; --hl:#3a3420; }
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:19px;line-height:1.6}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+.wide{max-width:1000px;margin:0 auto;padding:0 20px}
+header.hero{padding:72px 0 36px;border-bottom:1px solid var(--rule)}
+.kicker{font-family:var(--sans);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+h1{font-size:clamp(36px,6vw,58px);line-height:1.05;margin:.3em 0 .35em;font-weight:600;letter-spacing:-.01em}
+h1 em{font-style:italic;font-weight:400}
+.dek{font-size:22px;color:var(--ink2);margin:0 0 1.2em}
+.byline{font-family:var(--sans);font-size:14px;color:var(--ink2)}
+.byline a{color:var(--ink)}
+h2{font-size:30px;line-height:1.2;margin:2.2em 0 .4em;font-weight:600}
+h2 .n{font-family:var(--mono);font-size:15px;color:var(--ink3);display:block;margin-bottom:.4em;font-weight:400}
+p{margin:0 0 1em}
+a{color:var(--en)}
+.tamil{font-family:"Noto Sans Tamil",var(--sans)}
+.findings{list-style:none;padding:0;margin:1.5em 0 0;display:grid;gap:12px}
+.findings li{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:14px 16px 14px 52px;position:relative;font-size:17px}
+.findings li b{font-family:var(--sans);font-size:15.5px}
+.findings li::before{content:attr(data-n);position:absolute;left:16px;top:13px;font-family:var(--mono);font-size:15px;color:var(--ink3)}
+figure{margin:28px 0;background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:20px 20px 14px}
+figcaption{font-family:var(--sans);font-size:13.5px;color:var(--ink2);margin-top:10px;line-height:1.5}
+.ctl{font-family:var(--sans);font-size:13.5px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+.ctl .lab{color:var(--ink2);margin-right:4px}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--rule);border-radius:8px;overflow:hidden}
+.seg button{font:inherit;border:0;background:transparent;color:var(--ink2);padding:6px 12px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.seg button[aria-pressed="true"]{background:var(--soft);color:var(--ink);font-weight:600}
+.sw{width:10px;height:10px;border-radius:2px;display:inline-block}
+svg text{font-family:var(--sans);fill:var(--ink2);font-size:12px}
+svg .ink{fill:var(--ink)} svg .axis{stroke:var(--ink3);stroke-width:1} svg .grid{stroke:var(--rule);stroke-width:1}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font-family:var(--sans);font-size:12.5px;padding:7px 9px;border-radius:6px;max-width:280px;opacity:0;transition:opacity .1s;z-index:9;line-height:1.4}
+/* fact explorer */
+.grid24{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.fact{font-family:var(--sans);text-align:left;border:1px solid var(--rule);background:var(--bg);border-radius:8px;padding:9px 10px;cursor:pointer;color:var(--ink);font-size:13px;line-height:1.3;transition:transform .08s}
+.fact:hover{transform:translateY(-1px)}
+.fact .rel{font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em}
+.fact .ans{font-weight:600;font-size:14.5px}
+.fact .who{color:var(--ink2);font-size:12px}
+.fact.sil{border-color:var(--setc);box-shadow:inset 3px 0 0 var(--setc)}
+.fact.sil .state{color:var(--setc)}
+.fact .state{font-size:11.5px;margin-top:4px;color:var(--ink3)}
+.fact[aria-pressed="true"]{outline:2px solid var(--ink);outline-offset:1px}
+.detail{margin-top:14px;font-family:var(--sans);font-size:14px;border-top:1px solid var(--rule);padding-top:14px;min-height:120px}
+.detail table{width:100%;border-collapse:collapse}
+.detail th,.detail td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--rule);vertical-align:top}
+.detail th{font-weight:500;color:var(--ink2);font-size:12.5px}
+.ok{color:var(--random)} .no{color:var(--lookup)}
+.mono{font-family:var(--mono);font-size:13px}
+.stat{display:flex;gap:18px;flex-wrap:wrap;margin:10px 0 4px}
+.stat div{font-family:var(--sans);font-size:13px;color:var(--ink2)} .stat b{display:block;font-family:var(--serif);font-size:34px;color:var(--ink);font-weight:600;line-height:1.1}
+input[type=range]{width:100%;accent-color:var(--ink)}
+.callout{border-left:3px solid var(--ink);padding:4px 0 4px 16px;margin:1.4em 0;font-style:italic;color:var(--ink2)}
+.tbl{width:100%;border-collapse:collapse;font-family:var(--sans);font-size:13.5px;margin:10px 0}
+.tbl th,.tbl td{padding:7px 8px;border-bottom:1px solid var(--rule);text-align:right}
+.tbl th:first-child,.tbl td:first-child{text-align:left}
+.tbl th{color:var(--ink2);font-weight:500}
+.scroll{overflow-x:auto}
+footer{margin:80px 0 40px;padding-top:20px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13.5px;color:var(--ink2)}
+.themebtn{position:fixed;top:12px;right:12px;font-family:var(--sans);font-size:12px;background:var(--paper);color:var(--ink2);border:1px solid var(--rule);border-radius:20px;padding:5px 10px;cursor:pointer;z-index:5}
+@media (max-width:600px){.themebtn{top:auto;bottom:12px}body{font-size:17.5px}.dek{font-size:19px}figure{padding:14px 12px 10px;margin:22px -8px}.findings li{padding-left:44px}}
+</style>
+</head>
+<body>
+<button class="themebtn" id="theme" aria-label="Toggle colour theme">◐ theme</button>
+<div class="tip" id="tip" role="status"></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Lexsi Labs AI Safety &amp; Alignment Hackathon · Track 2b</div>
+  <h1>Where does <em>forgotten</em> knowledge go?</h1>
+  <p class="dek">We taught a small multilingual model facts about people who do not exist, made it forget some of them, and then went looking for what was left.</p>
+  <div class="byline">Vinod Anbalagan · Tiny Aya Global · CircuitKIT + SafeTune · <a href="https://github.com/VinodAnbalagan/unlearn-audit-tiny-aya">code</a> · <a href="https://huggingface.co/datasets/vinod-anbalagan/unlearn-audit-tiny-aya-logs">every run log</a></div>
+  <ol class="findings">
+    <li data-n="01"><b>Forgotten in English, remembered in Tamil.</b> <span id="f1"></span></li>
+    <li data-n="02"><b>Unlearned is not never-learned.</b> <span id="f2"></span></li>
+    <li data-n="03"><b>The answer is replaced, never refused.</b> <span id="f3"></span></li>
+    <li data-n="04"><b>Where you cut mattered less than what you cut.</b> <span id="f4"></span></li>
+  </ol>
+</div></header>
+
+<main>
+<section class="wrap">
+  <h2><span class="n">1 · the setup</span>Ninety-six people who never existed</h2>
+  <p>To test whether a model has truly forgotten something, you need to know exactly what it knew. Real facts are messy: the model learned them from many places, in many languages. So we invented people. Each one has a favourite colour, a profession, an instrument or a pet. Every fact exists in English and Tamil, and every answer is shared by four different people. That way the model cannot forget a <i>word</i>, only a <i>link</i> between a person and a word.</p>
+  <p>We fine-tuned <a href="https://huggingface.co/CohereLabs/tiny-aya-global">Tiny Aya Global</a> (3.35B parameters, 70+ languages) on all 96 facts. It answers them perfectly in both languages. We also trained a second model that never saw 24 of the people. That <b>never-learned</b> model is what a perfect unlearner should look like, and it turns out to be the most useful reference in the whole study.</p>
+  <p>Then we asked <b>CircuitKIT</b> where the facts live. EAP-IG attribution picked six MLP layers (0, 2, 3, 6, 27, 28), the same six in all three seeds. <b>SafeTune</b>'s NPO then unlearned the 24 facts by editing only those six layers. As controls we did the same with a "lookup" band (layers 5 to 10) and with six random layers. Each run got the same budget: 100 steps.</p>
+</section>
+
+<section class="wide">
+  <figure id="explorer">
+    <div class="ctl"><span class="lab">Unlearned with</span><div class="seg" id="setSeg"></div></div>
+    <div class="grid24" id="grid"></div>
+    <div class="detail" id="detail" aria-live="polite"><span style="color:var(--ink3)">Pick any fact to see what the model actually said, before and after, in both languages.</span></div>
+    <figcaption>The 24 facts the model was asked to forget. A coloured edge means the fact went silent in English under the chosen layer set. Click a card to read the actual replies.</figcaption>
+  </figure>
+</section>
+
+<section class="wrap">
+  <h2><span class="n">2 · forgetting</span>The circuit forgot the least</h2>
+  <p>We expected the attribution-chosen circuit to be the most efficient place to unlearn. It was the least. Under the same budget, English accuracy on the forget set fell to <span id="c_end"></span>. No set reached the target of 0.25, and accuracy on the 72 facts the model should keep never moved from 1.00.</p>
+</section>
+<section class="wide"><figure><div id="curves"></div>
+  <figcaption>English forget accuracy, checked every 5 NPO steps. Hover for values. Random and lookup were still falling at step 100.</figcaption></figure></section>
+
+<section class="wrap">
+  <h2><span class="n">3 · the other language</span>Silent in English, fluent in Tamil</h2>
+  <p>Ask the same question in Tamil and nothing was forgotten. Under every layer set, every fact that went silent in English was still answered correctly in Tamil. The unlearning was trained and checked in English, and it removed an English route to the fact, not the fact.</p>
+</section>
+<section class="wide"><figure><div id="tamil"></div>
+  <figcaption>Accuracy on the 24 forget facts after unlearning, asked in English vs Tamil. The dashed line is the never-learned model (chance level).</figcaption></figure></section>
+
+<section class="wrap">
+  <h2><span class="n">4 · inside the model</span>Unlearned is not never-learned</h2>
+  <p>A <a href="https://transformer-circuits.pub/2026/workspace/index.html">Jacobian lens</a> lets us read, at each layer, which words the model is disposed to say. Following <a href="https://arxiv.org/abs/2608.11408">Song et al. (2026)</a>, we checked whether a silenced fact's answer is still in the lens's top 10 near the output.</p>
+  <p>Our first instinct was to compare against chance. The never-learned model shows why that is wrong. It finds the "right" answer for most facts it has never seen, because "goat" is simply a plausible pet. The unlearned models sit far <i>below</i> that line. Unlearning did not return the model to ignorance. It taught the model to avoid one specific word, and that avoidance is itself a fingerprint.</p>
+</section>
+<section class="wide"><figure><div id="imprint"></div>
+  <figcaption>Share of English-silenced facts whose answer is in the Jacobian-lens top 10 (layers 31 to 34). Grey: the same facts in the never-learned model. Open circle: a decoy answer from another fact.</figcaption></figure></section>
+<section class="wrap"><p class="callout">A probe for "hidden knowledge" needs a never-learned baseline. Without one, a hit inside a small answer category can simply be the category prior.</p></section>
+
+<section class="wrap">
+  <h2><span class="n">5 · what it said instead</span>Replaced, never refused</h2>
+  <p>A model that has forgotten might say "I don't know". This one never did. Every silenced fact got a confident answer: another item from the same list, a piece of the person's own invented name, or a near-category word. The same facts fell no matter which layers we edited: instruments and professions first, colours and pets last.</p>
+</section>
+<section class="wide"><figure><div id="where"></div>
+  <figcaption>All <span id="nsil"></span> silenced English replies across the three layer sets, grouped by what replaced the answer.</figcaption></figure></section>
+
+<section class="wrap">
+  <h2><span class="n">6 · attacks and rounding</span>Steering, and the bf16 trap</h2>
+  <p><b>Steering.</b> We took the average difference in activations between the original and unlearned model on half the forgotten facts, and added it back to test on the other half. It recovers a few facts. But a direction built from facts the model never forgot recovers as many, and so do random directions of the same size. There is no fact-specific "memory" vector, only a generic undo.</p>
+</section>
+<section class="wide"><figure><div id="steer"></div>
+  <figcaption>Held-out English accuracy (12 facts): unlearned, steered, and the two controls.</figcaption></figure></section>
+<section class="wrap">
+  <p><b>Rounding.</b> In a three-seed pilot on real capital cities, casting a weakly unlearned model to bf16 brought back almost everything it had forgotten: the update was smaller than bf16 can represent. Drag the slider to raise the unlearning strength.</p>
+</section>
+<section class="wide"><figure>
+  <div class="ctl"><span class="lab">Unlearning strength</span><input type="range" id="dose" min="0" max="2" step="1" value="0" style="max-width:320px" aria-label="unlearning strength"><span id="doseLab" class="mono"></span></div>
+  <div class="stat"><div><b id="d_bf">-</b>restored by a bf16 cast</div><div><b id="d_ta">-</b>still answered in Tamil</div><div><b id="d_jl">-</b>J-lens can still read them</div></div>
+  <figcaption>Real capitals, NPO on all layers, three seeds per dose, as shares of the English-forgotten facts. In the fictional main run (100 steps on 6 layers), bf16 restored nothing.</figcaption></figure></section>
+
+<section class="wrap">
+  <h2><span class="n">7 · so what</span>If you unlearn, audit like this</h2>
+  <ol>
+    <li><b>Test in every language you serve.</b> English-only unlearning left Tamil fully intact.</li>
+    <li><b>Compare against a model that never learned the fact</b>, not only against the original or against chance.</li>
+    <li><b>Check the precision you deploy at.</b> A weak update can vanish in a bf16 cast.</li>
+    <li><b>Treat steering recovery with controls</b>, or a generic direction will look like a memory.</li>
+    <li><b>Do not assume attribution is the best place to edit.</b> Under a fixed budget, it was not.</li>
+  </ol>
+  <h2><span class="n">8 · how sure are we</span>Honest limits</h2>
+  <p>The main run is a single seed. That was the compute budget, and the never-learned models for seeds 1 and 2 are already trained and public. The random and lookup sets were still improving at step 100. Every automatic verdict was checked by a blind human audit: Cohen's kappa 0.96 on the main run, before any adjudication. Every run, failed attempts included, was pre-registered with frozen code hashes, and its logs are <a href="https://huggingface.co/datasets/vinod-anbalagan/unlearn-audit-tiny-aya-logs">public</a>.</p>
+  <div class="scroll"><table class="tbl" id="tbl"></table></div>
+</section>
+
+<footer class="wrap">
+  Built for the Lexsi Labs AI Safety and Alignment Hackathon (with Cohere Labs and Hugging Face).
+  Models: CC-BY-NC-4.0 (derived from Tiny Aya). Data: CC-BY-4.0. Libraries: CircuitKIT and SafeTune (Lexsi Labs), jlens (Anthropic).
+  Every number on this page comes from <span class="mono">results.json</span> and <span class="mono">generations.jsonl</span> of the logged runs.
+</footer>
+</main>
+
+<script>
+const D = /*__DATA__*/null;
+const SETS=["circuit","random","lookup"], MK={circuit:"circle",random:"square",lookup:"triangle"};
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const fmt=x=>x==null?"-":(+x).toFixed(2);
+const tip=document.getElementById("tip");
+function showTip(e,html){tip.innerHTML=html;tip.style.opacity=1;const x=Math.min(e.clientX+14,innerWidth-300);tip.style.left=x+"px";tip.style.top=(e.clientY+14)+"px";}
+function hideTip(){tip.style.opacity=0}
+const NS="http://www.w3.org/2000/svg";
+function el(t,a={},p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+function svgBox(host,h){host.innerHTML="";const w=Math.max(320,host.clientWidth||700);const s=el("svg",{viewBox:`0 0 ${w} ${h}`,width:"100%",role:"img"});host.appendChild(s);return [s,w]}
+function marker(s,kind,x,y,r,fill,stroke){if(kind==="square")return el("rect",{x:x-r,y:y-r,width:2*r,height:2*r,fill,stroke:stroke||"none","stroke-width":2},s);
+ if(kind==="triangle")return el("path",{d:`M${x},${y-r*1.2}L${x+r*1.1},${y+r*.8}L${x-r*1.1},${y+r*.8}Z`,fill,stroke:stroke||"none","stroke-width":2},s);
+ return el("circle",{cx:x,cy:y,r,fill,stroke:stroke||"none","stroke-width":2},s)}
+
+/* findings text */
+(function(){const t=D.tamil;const sil=SETS.reduce((a,s)=>a+t[s].silenced_en,0),ok=SETS.reduce((a,s)=>a+t[s].still_right_ta,0);
+document.getElementById("f1").textContent=`${ok} of ${sil} facts silenced in English were still answered correctly in Tamil, under every layer choice.`;
+const im=D.imprint;document.getElementById("f2").textContent=`A model that never saw these people ranks the answer inside its top 10 for ${Math.round(Math.min(...SETS.map(s=>im[s].gold))*100)} to ${Math.round(Math.max(...SETS.map(s=>im[s].gold))*100)}% of silenced facts; the unlearned models for only ${Math.round(Math.min(...SETS.map(s=>im[s].unlearned))*100)} to ${Math.round(Math.max(...SETS.map(s=>im[s].unlearned))*100)}%.`;
+const c=D.where.counts;document.getElementById("f3").textContent=`Of ${sil} silenced replies, ${c["another answer from the same list"]} named another item from the same list and ${c["a piece of the person's name"]} a piece of the person's own name. None refused.`;
+document.getElementById("f4").textContent=`The same facts fell under every layer set, and the attribution-chosen circuit forgot the least (English accuracy ${fmt(D.tamil.circuit.forget_en)} vs ${fmt(D.tamil.random.forget_en)}).`;
+document.getElementById("c_end").textContent=`${fmt(D.tamil.circuit.forget_en)} for the circuit, ${fmt(D.tamil.random.forget_en)} for random layers and ${fmt(D.tamil.lookup.forget_en)} for the lookup band`;
+document.getElementById("nsil").textContent=sil;})();
+
+/* explorer */
+let curSet="circuit", curFact=null;
+function segButtons(host,items,cur,on){host.innerHTML="";items.forEach(([k,lab,col])=>{const b=document.createElement("button");b.type="button";b.setAttribute("aria-pressed",k===cur);b.innerHTML=(col?`<span class="sw" style="background:var(--${col})"></span>`:"")+lab;b.onclick=()=>on(k);host.appendChild(b)})}
+function drawExplorer(){segButtons(document.getElementById("setSeg"),SETS.map(s=>[s,`${s} <span class="mono" style="color:var(--ink3)">${s==="circuit"?"0,2,3,6,27,28":s==="random"?"0,2,5,7,21,28":"5-10"}</span>`,s]),curSet,k=>{curSet=k;drawExplorer()});
+ const g=document.getElementById("grid");g.innerHTML="";g.style.setProperty("--setc",`var(--${curSet})`);
+ D.facts.forEach(f=>{const r=f.sets[curSet];const sil=!r.en.ok;const b=document.createElement("button");b.type="button";b.className="fact"+(sil?" sil":"");b.setAttribute("aria-pressed",curFact===f.id);
+  b.innerHTML=`<div class="rel">${f.relation}</div><div class="ans">${f.answer_en} <span class="tamil" style="font-weight:400;color:var(--ink3)">${f.answer_ta}</span></div><div class="who">${f.person_en}</div><div class="state">${sil?"silent in English":"still answered"}</div>`;
+  b.onclick=()=>{curFact=f.id;drawExplorer();detail(f)};g.appendChild(b)});
+ if(curFact)detail(D.facts.find(f=>f.id===curFact));}
+function cell(x){return `<span class="${x.ok?"ok":"no"}">${x.ok?"✓":"✗"}</span> <span class="mono">${esc(x.reply)}</span>`}
+function esc(s){return String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}
+function detail(f){const d=document.getElementById("detail");
+ let h=`<div style="margin-bottom:8px"><b>${esc(f.person_en)}</b> · <span class="tamil">${esc(f.person_ta)}</span> · true answer <b>${f.answer_en}</b> / <span class="tamil">${f.answer_ta}</span></div>
+ <div style="color:var(--ink2);margin-bottom:8px">EN: “${esc(f.q_en)}” · <span class="tamil">TA: “${esc(f.q_ta)}”</span></div>
+ <div class="scroll"><table><tr><th>model</th><th>asked in English</th><th>asked in Tamil</th></tr>
+ <tr><td>taught (before)</td><td>${cell(f.sets.taught.en)}</td><td class="tamil">${cell(f.sets.taught.ta)}</td></tr>`;
+ SETS.forEach(s=>{h+=`<tr${s===curSet?' style="background:var(--soft)"':""}><td><span class="sw" style="background:var(--${s})"></span> unlearned: ${s}</td><td>${cell(f.sets[s].en)}</td><td class="tamil">${cell(f.sets[s].ta)}</td></tr>`});
+ d.innerHTML=h+"</table></div>";}
+
+/* curves */
+function drawCurves(){const host=document.getElementById("curves");const [s,w]=svgBox(host,300);const m={l:44,r:110,t:14,b:36},iw=w-m.l-m.r,ih=300-m.t-m.b;
+ const X=v=>m.l+v/100*iw,Y=v=>m.t+(1-v)*ih;
+ [0,.25,.5,.75,1].forEach(v=>{el("line",{x1:m.l,x2:m.l+iw,y1:Y(v),y2:Y(v),class:"grid"},s);el("text",{x:m.l-8,y:Y(v)+4,"text-anchor":"end"},s).textContent=v.toFixed(2)});
+ [0,20,40,60,80,100].forEach(v=>{el("text",{x:X(v),y:m.t+ih+20,"text-anchor":"middle"},s).textContent=v});
+ el("text",{x:m.l+iw/2,y:298,"text-anchor":"middle"},s).textContent="NPO step";
+ el("line",{x1:m.l,x2:m.l+iw,y1:Y(.25),y2:Y(.25),stroke:css("--ink3"),"stroke-dasharray":"3 4"},s);el("text",{x:m.l+6,y:Y(.25)-6},s).textContent="target 0.25";
+ const ends={};SETS.forEach(k=>{const c=D.curves[k];const pts=c.step.map((x,i)=>[X(x),Y(c.forget_en[i])]);
+  el("path",{d:"M"+pts.map(p=>p.join(",")).join("L"),fill:"none",stroke:css(`--${k}`),"stroke-width":2.5,"stroke-linejoin":"round"},s);
+  pts.forEach((p,i)=>{const hit=el("circle",{cx:p[0],cy:p[1],r:9,fill:"transparent"},s);hit.onmousemove=e=>showTip(e,`<b>${k}</b> · step ${c.step[i]}<br>forget accuracy ${fmt(c.forget_en[i])}`);hit.onmouseleave=hideTip;});
+  ends[k]=pts[pts.length-1];marker(s,MK[k],ends[k][0],ends[k][1],4.5,css(`--${k}`));});
+ const lab=SETS.map(k=>({k,y:ends[k][1]})).sort((a,b)=>a.y-b.y);for(let i=1;i<lab.length;i++)if(lab[i].y-lab[i-1].y<16)lab[i].y=lab[i-1].y+16;
+ lab.forEach(o=>{const t=el("text",{x:m.l+iw+10,y:o.y+4,class:"ink"},s);t.textContent=`${o.k} ${fmt(D.curves[o.k].forget_en.at(-1))}`});}
+
+/* tamil */
+function drawTamil(){const host=document.getElementById("tamil");const [s,w]=svgBox(host,280);const m={l:44,r:14,t:30,b:40},iw=w-m.l-m.r,ih=280-m.t-m.b;const Y=v=>m.t+(1-v)*ih;
+ [0,.5,1].forEach(v=>{el("line",{x1:m.l,x2:m.l+iw,y1:Y(v),y2:Y(v),class:"grid"},s);el("text",{x:m.l-8,y:Y(v)+4,"text-anchor":"end"},s).textContent=v.toFixed(1)});
+ const gw=iw/3,bw=Math.min(54,gw*.3);
+ SETS.forEach((k,i)=>{const t=D.tamil[k];const cx=m.l+gw*(i+.5);
+  [["en",t.forget_en,"asked in English"],["ta",t.forget_ta,"asked in Tamil"]].forEach(([lg,v,lab],j)=>{const x=cx+(j?3:-bw-3);
+   const r=el("rect",{x,y:Y(v),width:bw,height:Y(0)-Y(v),fill:css(`--${lg}`),rx:3},s);r.onmousemove=e=>showTip(e,`<b>${k}</b> · ${lab}<br>${fmt(v)} of the 24 forget facts`);r.onmouseleave=hideTip;
+   el("text",{x:x+bw/2,y:Y(v)-6,"text-anchor":"middle",class:"ink"},s).textContent=fmt(v)});
+  el("text",{x:cx,y:m.t+ih+18,"text-anchor":"middle",class:"ink"},s).textContent=k;
+  el("text",{x:cx,y:m.t+ih+34,"text-anchor":"middle"},s).textContent=`${t.still_right_ta}/${t.silenced_en} silenced still right in Tamil`;});
+ const gl=D.eval.gold_acc.eval_en;el("line",{x1:m.l,x2:m.l+iw,y1:Y(gl),y2:Y(gl),stroke:css("--gold"),"stroke-dasharray":"5 4","stroke-width":1.5},s);
+ [["en","English"],["ta","Tamil"]].forEach(([lg,lab],j)=>{el("rect",{x:m.l+j*90,y:6,width:10,height:10,fill:css(`--${lg}`),rx:2},s);el("text",{x:m.l+14+j*90,y:15},s).textContent=lab});}
+
+/* imprint */
+function drawImprint(){const host=document.getElementById("imprint");const [s,w]=svgBox(host,240);const m={l:110,r:120,t:16,b:40},iw=w-m.l-m.r;const X=v=>m.l+v*iw;
+ [0,.25,.5,.75,1].forEach(v=>{el("line",{x1:X(v),x2:X(v),y1:m.t,y2:240-m.b,class:"grid"},s);el("text",{x:X(v),y:240-m.b+18,"text-anchor":"middle"},s).textContent=v.toFixed(2)});
+ el("text",{x:m.l+iw/2,y:236,"text-anchor":"middle"},s).textContent="answer in J-lens top 10";
+ SETS.forEach((k,i)=>{const d=D.imprint[k];const y=m.t+24+i*58;
+  el("text",{x:m.l-12,y:y+4,"text-anchor":"end",class:"ink"},s).textContent=k;el("text",{x:m.l-12,y:y+19,"text-anchor":"end"},s).textContent=`${d.n_silent} silenced`;
+  el("line",{x1:X(d.unlearned),x2:X(d.gold),y1:y,y2:y,stroke:css("--rule"),"stroke-width":7,"stroke-linecap":"round"},s);
+  el("circle",{cx:X(d.decoy),cy:y,r:5,fill:"none",stroke:css("--ink3"),"stroke-width":1.5},s);
+  const g=el("circle",{cx:X(d.gold),cy:y,r:7,fill:css("--gold"),stroke:css("--paper"),"stroke-width":2},s);
+  const u=marker(s,MK[k],X(d.unlearned),y,7,css(`--${k}`),css("--paper"));
+  g.onmousemove=e=>showTip(e,`never-learned model: ${fmt(d.gold)}<br>(top-50: ${fmt(d.gold_k50)})`);g.onmouseleave=hideTip;
+  u.onmousemove=e=>showTip(e,`<b>${k}</b> unlearned: ${fmt(d.unlearned)}<br>(top-50: ${fmt(d.unlearned_k50)})<br>decoy: ${fmt(d.decoy)}`);u.onmouseleave=hideTip;
+  el("text",{x:X(d.gold)+12,y:y+4},s).textContent=`never learned ${fmt(d.gold)}`;});}
+
+/* where */
+function drawWhere(){const host=document.getElementById("where");const c=D.where.counts;const order=["another answer from the same list","a piece of the person's name","a word that starts like the answer","something else"];
+ const max=Math.max(...order.map(o=>c[o]||0));host.innerHTML="";
+ order.forEach(o=>{const seen=new Set();const ex=(D.where.examples[o]||[]).filter(e=>{const k=e.answer+"|"+e.reply;if(seen.has(k))return false;seen.add(k);return true}).slice(0,4).map(e=>`${e.answer} → “${esc(e.reply.length>26?e.reply.slice(0,26)+"…":e.reply)}”`).join(" · ");
+  const row=document.createElement("div");row.style.cssText="font-family:var(--sans);font-size:13.5px;margin:0 0 14px";
+  row.innerHTML=`<div style="display:flex;justify-content:space-between;color:var(--ink)"><span>${o}</span><b>${c[o]||0}</b></div>
+  <div style="height:10px;background:var(--soft);border-radius:5px;margin:5px 0"><div style="height:10px;width:${(c[o]||0)/max*100}%;background:var(--ink2);border-radius:5px"></div></div>
+  <div class="mono" style="color:var(--ink3);font-size:12px">${ex}</div>`;host.appendChild(row)});}
+
+/* steering */
+function drawSteer(){const host=document.getElementById("steer");const [s,w]=svgBox(host,230);const m={l:80,r:20,t:14,b:56},iw=w-m.l-m.r;const lo=.3,hi=.8,X=v=>m.l+(v-lo)/(hi-lo)*iw;
+ [.3,.4,.5,.6,.7,.8].forEach(v=>{el("line",{x1:X(v),x2:X(v),y1:m.t,y2:230-m.b,class:"grid"},s);el("text",{x:X(v),y:230-m.b+16,"text-anchor":"middle"},s).textContent=v.toFixed(1)});
+ const cols=[["unlearned","--ink2","circle"],["steered","--en","square"],["retain-fact direction","--ta","triangle"]];
+ SETS.forEach((k,i)=>{const d=D.steering[k];const y=m.t+22+i*50;el("text",{x:m.l-12,y:y+4,"text-anchor":"end",class:"ink"},s).textContent=k;
+  (d.random||[]).forEach((v,j)=>{const c=el("circle",{cx:X(v),cy:y-14+j*5,r:4.5,fill:"none",stroke:css("--ink3"),"stroke-width":1.5},s);c.onmousemove=e=>showTip(e,`random direction: ${fmt(v)}`);c.onmouseleave=hideTip});
+  cols.forEach(([lab,col,mk],j)=>{const v=d[lab];const mm=marker(s,mk,X(v),y+(j-1)*7,6,css(col),css("--paper"));mm.onmousemove=e=>showTip(e,`<b>${k}</b> · ${lab}: ${fmt(v)}`);mm.onmouseleave=hideTip;});});
+ cols.concat([["random direction","--ink3","ring"]]).forEach(([lab,col,mk],j)=>{const x=m.l+j*Math.min(150,iw/4);const y=230-14;
+  if(mk==="ring")el("circle",{cx:x,cy:y-4,r:4.5,fill:"none",stroke:css(col),"stroke-width":1.5},s);else marker(s,mk,x,y-4,5,css(col));
+  el("text",{x:x+10,y:y},s).textContent=lab});}
+
+/* dose */
+function drawDose(){const d=D.dose_capitals;const i=+document.getElementById("dose").value;const lab=d.labels[i].replace("\n"," · ");
+ document.getElementById("doseLab").textContent=lab;
+ const [a,n]=d.bf16_restored[i],[b,m]=d.ta_still_right[i];
+ document.getElementById("d_bf").textContent=`${a}/${n}`;document.getElementById("d_ta").textContent=`${b}/${m}`;document.getElementById("d_jl").textContent=`${Math.round(d.jaccess_en[i]*100)}%`;}
+document.getElementById("dose").oninput=drawDose;
+
+/* table */
+(function(){const t=document.getElementById("tbl");const E=D.eval,I=D.imprint;
+ const rows=[["","taught","circuit","random","lookup","never learned"],
+ ["forget, English",fmt(E.taught.forget_eval_en),...SETS.map(s=>fmt(E[s].forget_eval_en)),fmt(E.gold_acc.eval_en)],
+ ["forget, English paraphrase",fmt(E.taught.forget_para_en),...SETS.map(s=>fmt(E[s].forget_para_en)),fmt(E.gold_acc.para_en)],
+ ["forget, Tamil",fmt(E.taught.forget_eval_ta),...SETS.map(s=>fmt(E[s].forget_eval_ta)),fmt(E.gold_acc.eval_ta)],
+ ["retain, English",fmt(E.taught.retain_en),...SETS.map(s=>fmt(E[s].retain_en)),""],
+ ["retain, Tamil",fmt(E.taught.retain_ta),...SETS.map(s=>fmt(E[s].retain_ta)),""],
+ ["J-lens top 10 on silenced","",...SETS.map(s=>fmt(I[s].unlearned)),SETS.map(s=>fmt(I[s].gold)).join(" / ")],
+ ["after bf16 cast, English","",...SETS.map(s=>fmt(D.bf16[s].forget_en)),""]];
+ t.innerHTML=rows.map((r,i)=>"<tr>"+r.map(c=>i?`<td>${c}</td>`:`<th>${c}</th>`).join("")+"</tr>").join("");})();
+
+/* theme + redraw */
+const root=document.documentElement;
+document.getElementById("theme").onclick=()=>{const dark=root.dataset.theme?root.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;root.dataset.theme=dark?"light":"dark";drawAll()};
+function drawAll(){drawExplorer();drawCurves();drawTamil();drawImprint();drawWhere();drawSteer();drawDose()}
+drawAll();let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(drawAll,120)});
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",drawAll);
+</script>
+</body>
+</html>

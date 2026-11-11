@@ -85,8 +85,10 @@ class EvalStop:
 
 def npo_localized(model, tok, forget: list[dict], retain: list[dict], param_names: list[str], *,
                   reference=None, variant="npo_grad_diff", beta=0.1, lr=1e-5, weight_decay=0.01,
-                  optimizer="adamw", max_steps=80, eval_every=2, stop_fn=None, lang="en"):
-    """Run SafeTune NPO on `param_names` only. Returns (reference, EvalStop record)."""
+                  optimizer="adamw", max_steps=80, eval_every=2, stop_fn=None, lang="en", retain_bs=None):
+    """Run SafeTune NPO on `param_names` only. Returns (reference, EvalStop record).
+    retain_bs=None: the whole retain set is one batch every step (pilot behaviour). retain_bs=k: the retain
+    set is split, in its given order, into consecutive chunks of k that are cycled step by step."""
     import safetune.unlearn as U
 
     assert variant in ("npo", "npo_grad_diff"), "forward_fn trimming is only loss-preserving for npo / npo_grad_diff"
@@ -96,12 +98,15 @@ def npo_localized(model, tok, forget: list[dict], retain: list[dict], param_name
     freeze_except(model, param_names)
     dev = model.device
     fb = make_batch(tok, forget, lang, dev)
-    rb = make_batch(tok, retain, lang, dev)
+    if retain_bs is None:
+        rbs = [make_batch(tok, retain, lang, dev)]
+    else:
+        rbs = [make_batch(tok, retain[i : i + retain_bs], lang, dev) for i in range(0, len(retain), retain_bs)]
     it = EvalStop(fb, max_steps, eval_every, stop_fn or (lambda step: False))
     cfg = U.NPOConfig(variant=variant, beta=beta, lr=lr, weight_decay=weight_decay, optimizer=optimizer,
                       num_epochs=1, max_steps=max_steps)
     model.train()
-    U.npo_unlearn(model, forget_batches=it, retain_batches=itertools.repeat(rb), reference=reference,
+    U.npo_unlearn(model, forget_batches=it, retain_batches=itertools.cycle(rbs), reference=reference,
                   forward_fn=forward_keep, config=cfg)
     model.eval()
     model.requires_grad_(False)

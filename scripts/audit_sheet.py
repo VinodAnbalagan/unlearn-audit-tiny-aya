@@ -46,6 +46,14 @@ def make(run_dir):
     print(f"wrote {dst}: {len(rows)} rows (judge columns hidden)")
 
 
+def _num(s: str):
+    """Spreadsheets turn numeric outputs into numbers ("12." -> "12", "010" -> "10"; RUN-004 audit)."""
+    try:
+        return float(s.strip().rstrip("."))
+    except ValueError:
+        return None
+
+
 def merge(run_dir):
     src, lab = os.path.join(run_dir, "audit.csv"), os.path.join(run_dir, "audit_label.csv")
     rows = list(csv.DictReader(open(src, encoding="utf-8")))
@@ -56,7 +64,8 @@ def merge(run_dir):
     assert sorted(int(lr["row"]) for lr in labels) == list(range(len(rows))), "row numbers duplicated or missing"
     for lr in labels:
         r = rows[int(lr["row"])]
-        assert (r["id"], r["lang"], r["gen"]) == (lr["id"], lr["lang"], lr["model_output"]), f"row {lr['row']} mismatch"
+        same = r["gen"] == lr["model_output"] or (_num(r["gen"]) is not None and _num(r["gen"]) == _num(lr["model_output"]))
+        assert (r["id"], r["lang"]) == (lr["id"], lr["lang"]) and same, f"row {lr['row']} mismatch"
         r["human_correct"] = lr["human_correct"].strip()
         r["note"] = "; ".join(x for x in (r.get("note", ""), lr["note"].strip()) if x)
     missing = sum(not r["human_correct"] for r in rows)
