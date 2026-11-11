@@ -26,14 +26,17 @@ def main():
     T = json.load(open(os.path.join(ROOT, "data", "fictional_templates.json"), encoding="utf-8"))
     gens = [json.loads(l) for l in open(os.path.join(a.run5, "generations.jsonl"), encoding="utf-8")]
     G = {(g["stage"], g["id"], g["lang"]): g for g in gens if g["split"] == "forget" and g["kind"] == "eval"}
+    P = {(g["stage"], g["id"], g["lang"]): g for g in gens if g["split"] == "forget" and g["kind"] == "para"}
     rows = []
     for f in sorted((f for f in facts.values() if f["rep"] == 0), key=lambda f: (f["relation"], f["answer_en"])):
         q = {lg: T[f["relation"]][lg]["q_train"][0].format(e=f["entity_en"] if lg == "en" else f["entity_ta"]) for lg in ("en", "ta")}
+        qp = {lg: T[f["relation"]][lg]["q_para"].format(e=f["entity_en"] if lg == "en" else f["entity_ta"]) for lg in ("en", "ta")}
         r = {"id": f["id"], "relation": f["relation"], "person_en": f["entity_en"], "person_ta": f["entity_ta"],
-             "answer_en": f["answer_en"], "answer_ta": f["answer_ta"], "q_en": q["en"], "q_ta": q["ta"], "sets": {}}
+             "answer_en": f["answer_en"], "answer_ta": f["answer_ta"], "q_en": q["en"], "q_ta": q["ta"], "qp_en": qp["en"], "qp_ta": qp["ta"], "sets": {}}
         for st in ["taught"] + [f"unlearned_{s}" for s in SETS]:
             k = "taught" if st == "taught" else st.split("_", 1)[1]
-            r["sets"][k] = {lg: {"reply": G[(st, f["id"], lg)]["gen"], "ok": bool(G[(st, f["id"], lg)]["correct"])} for lg in ("en", "ta")}
+            r["sets"][k] = {lg: {"reply": G[(st, f["id"], lg)]["gen"], "ok": bool(G[(st, f["id"], lg)]["correct"]),
+                                 "para": P[(st, f["id"], lg)]["gen"], "para_ok": bool(P[(st, f["id"], lg)]["correct"])} for lg in ("en", "ta")}
         rows.append(r)
     D["facts"] = rows
     tpl = open(os.path.join(ROOT, "space", "template.html"), encoding="utf-8").read()

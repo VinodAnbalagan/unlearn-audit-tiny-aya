@@ -59,7 +59,7 @@ h1 em,h2 em{color:var(--accent)}
 .toc a span{font-size:12.5px;color:var(--ink2)}
 @media (max-width:760px){.toc{grid-template-columns:1fr 1fr}}
 /* parts and sections */
-.part{margin-top:90px;padding:26px 0 0;border-top:1px solid var(--rule)}
+.part{margin-top:90px;padding-top:26px;border-top:1px solid var(--rule)}
 .part .pk{font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--accent);text-transform:uppercase}
 .part h2.big{font-size:clamp(40px,6vw,68px)}
 section.sec{padding-top:56px;padding-bottom:8px;scroll-margin-top:60px}
@@ -131,8 +131,9 @@ h3{font-family:var(--serif);font-weight:400;font-size:28px;margin:30px 0 10px}
 .scrolly{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:36px;position:relative}
 .sticky{position:sticky;top:76px;height:min(560px,calc(100vh - 100px));align-self:start}
 .steps{padding:10vh 0 30vh}
-.step{background:var(--panel);border:1px solid var(--rule);border-radius:14px;padding:16px 18px;margin:0 0 40vh;opacity:.35;transition:opacity .3s;box-shadow:var(--shadow);font-size:15.5px}
-.step.on{opacity:1}
+.step{background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--rule);border-radius:14px;padding:16px 18px;margin:0 0 40vh;color:var(--ink2);transition:border-color .3s,box-shadow .3s;box-shadow:var(--shadow);font-size:15.5px}
+.step.on{border-color:var(--accent);color:var(--ink);box-shadow:0 10px 30px -18px color-mix(in srgb,var(--accent) 60%,transparent)}
+.step b{color:var(--ink)}
 .step .sn{font-family:var(--mono);font-size:11.5px;color:var(--ink3);display:block;margin-bottom:4px}
 @media (max-width:860px){.scrolly{grid-template-columns:1fr}.sticky{top:58px;height:44vh;z-index:2;background:var(--bg);padding-bottom:6px}.steps{padding-top:2vh}.step{margin-bottom:55vh}}
 svg text{font-family:var(--sans);fill:var(--ink2);font-size:12px}
@@ -186,6 +187,31 @@ input[type=range]{width:100%;accent-color:var(--ink)}
 .gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
 .gloss div{border:1px solid var(--rule);border-radius:12px;padding:12px;background:var(--panel);font-size:13.5px;color:var(--ink2)}
 .gloss b{color:var(--ink);display:block}
+.ex{display:grid;gap:10px;margin-top:16px}
+.exrow{display:grid;grid-template-columns:110px 1fr auto;gap:10px;align-items:center;border:1px solid var(--rule);background:var(--bg);border-radius:10px;padding:10px 12px;font-size:14px}
+.exrow .k{font-family:var(--mono);font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em}
+.exrow .q{color:var(--ink2)}
+@media (max-width:640px){.exrow{grid-template-columns:1fr}}
+.carousel{border:1px solid var(--rule);background:var(--panel);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
+.car-head{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--rule)}
+.car-head .t{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);flex:1}
+.car-head .c{font-family:var(--mono);font-size:13px;color:var(--ink2)}
+.arrow{width:42px;height:42px;border-radius:50%;border:1px solid var(--rule);background:var(--bg);color:var(--ink);font-size:18px;cursor:pointer}
+.arrow:disabled{opacity:.35;cursor:default}
+.car-body{padding:30px 34px 26px;min-height:260px;display:grid;grid-template-columns:120px 1fr;gap:24px;align-items:start}
+.car-body .num{font-family:var(--serif);font-size:110px;line-height:.8;color:var(--accent)}
+.car-body h4{font-family:var(--serif);font-weight:400;font-size:clamp(28px,3.4vw,40px);line-height:1.08;margin:0 0 10px}
+.car-body p{margin:0 0 12px;color:var(--ink2);font-size:16px;max-width:640px}
+.car-body .ev{display:inline-flex;gap:10px;align-items:baseline;border:1px solid var(--rule);background:var(--bg);border-radius:12px;padding:8px 14px;font-size:14px;color:var(--ink2)}
+.car-body .ev b{font-family:var(--serif);font-weight:400;font-size:30px;color:var(--ink)}
+.car-body a.go{font-size:13.5px;color:var(--accent)}
+.car-dots{display:flex;gap:6px;padding:0 20px 18px 20px;flex-wrap:wrap}
+.car-dots button{font:inherit;font-family:var(--mono);font-size:12.5px;border:1px solid var(--rule);background:var(--bg);color:var(--ink2);border-radius:20px;padding:5px 12px;cursor:pointer}
+.car-dots button[aria-current="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+@media (max-width:640px){.car-body{grid-template-columns:1fr;padding:22px 20px;gap:6px}.car-body .num{font-size:70px}}
+.refs{font-size:13.5px;color:var(--ink2);padding-left:20px}
+.refs li{margin-bottom:6px}
+sup a{color:var(--accent);text-decoration:none;font-size:.75em}
 footer{margin:90px 0 0;padding:26px 0 40px;border-top:1px solid var(--rule);font-size:13px;color:var(--ink3)}
 .fade{opacity:0;transform:translateY(14px);transition:opacity .7s,transform .7s}
 .fade.in{opacity:1;transform:none}
@@ -231,7 +257,8 @@ footer{margin:90px 0 0;padding:26px 0 40px;border-top:1px solid var(--rule);font
   <div class="two">
     <div class="prose">
       <p>A language model like <b>Tiny Aya</b>, a 3.35-billion-parameter model from Cohere Labs that speaks over 70 languages, answers questions by passing your words through a stack of <span class="term" data-def="One processing stage of the model. Tiny Aya has 36, stacked one on top of the other. Each one reads what the layer below wrote and adds to it.">layers</span>.</p>
-      <p>Facts are not stored in a database. They are spread across billions of numbers, the <span class="term" data-def="The learned numbers inside the model. Training adjusts them. A fact is not in one place; it is a pattern across many of them.">weights</span>. Somewhere in that stack, "Who plays the guitar?" becomes "guitar".</p>
+      <p>Facts are not stored in a database. They are spread across billions of numbers, the <span class="term" data-def="The learned numbers inside the model. Training adjusts them. A fact is not in one place; it is a pattern across many of them.">weights</span>. Somewhere in that stack, "Which instrument does this person play?" becomes "guitar".</p>
+      <p>Where in the stack? A useful picture comes from research showing that the <b>MLP</b> inside each layer behaves like a <b>key-value memory</b>. Its first half acts as <i>keys</i> that recognise patterns in the input ("this is a question about Kotasel Virasal's instrument"). Its second half holds <i>values</i> that push the prediction towards particular words ("guitar")<sup><a href="#ref1">[1]</a></sup>. Later work located and edited individual facts this way, mostly in early-to-middle layers<sup><a href="#ref2">[2]</a></sup>. If facts live in these matrices, they are also where you would try to remove them.</p>
       <p>Press <b>Ask</b> to watch a question travel up the stack.</p>
     </div>
     <div class="panel">
@@ -267,7 +294,7 @@ footer{margin:90px 0 0;padding:26px 0 40px;border-top:1px solid var(--rule);font
   <div class="two">
     <div class="prose">
       <p>To check whether a model forgot something, you must know <b>exactly</b> what it knew. Real facts make that impossible: the model met "Paris is the capital of France" thousands of times, in dozens of languages.</p>
-      <p>So we <b>invented people</b>. Each one has one fact: a favourite colour, a profession, an instrument or a pet. Every fact exists in <b>English and Tamil</b>, and a native Tamil speaker checked every Tamil sentence.</p>
+      <p>So, following <b>TOFU</b>, the benchmark that first tested unlearning on invented authors<sup><a href="#ref3">[3]</a></sup>, we <b>invented people</b>. Each one has one fact: a favourite colour, a profession, an instrument or a pet. Every fact exists in <b>English and Tamil</b>, and a native Tamil speaker checked every Tamil sentence. TOFU is English-only with long biographies; ours is a small, bilingual version built to test one thing cleanly.</p>
       <p>One twist makes the test fair. <b>Each answer belongs to four different people</b>, so the model cannot "forget" the word <i>guitar</i>. It can only forget <i>who</i> plays the guitar.</p>
     </div>
     <div class="pcard" id="pcard"></div>
@@ -283,7 +310,7 @@ footer{margin:90px 0 0;padding:26px 0 40px;border-top:1px solid var(--rule);font
   <h2>Two students, <em>one difference</em></h2>
   <div class="two">
     <div class="prose">
-      <p>We fine-tuned Tiny Aya on these facts. It learned all of them, scoring <b>1.00 in English and 0.99 in Tamil</b>. It even answers questions phrased in ways it was never trained on.</p>
+      <p>We fine-tuned Tiny Aya on these facts, showing it two phrasings of each question in both languages. It learned all of them: <b>1.00 in English and 0.99 in Tamil</b>. Below are its real answers, including to a reworded question it <b>never saw during training</b>.</p>
       <p>Then we trained a <b>twin</b> exactly the same way, except it <b>never saw the 24 people</b> we planned to remove. The twin is the gold standard: it shows what a model that genuinely does not know these facts looks like, inside and out.</p>
       <p>A perfect unlearner should turn the first student into the second.</p>
     </div>
@@ -292,6 +319,8 @@ footer{margin:90px 0 0;padding:26px 0 40px;border-top:1px solid var(--rule);font
       <div class="twin"><h4>Never-learned twin</h4><p>Never saw the 24</p><div class="mini" id="miniB"></div></div>
     </div>
   </div>
+  <div class="panel" style="margin-top:18px"><div class="lab">What the taught model actually says</div><div class="ex" id="examples"></div>
+    <div class="note">Real replies from the taught model before any unlearning. "Never seen" questions were held out of training to test that it learned the fact, not the wording.</div></div>
 </section>
 
 <!-- ================= PART 3 ================= -->
@@ -307,10 +336,10 @@ footer{margin:90px 0 0;padding:26px 0 40px;border-top:1px solid var(--rule);font
     <div class="sticky"><div class="panel" style="height:100%;padding:14px"><svg id="layers" class="chart" style="height:100%"></svg></div></div>
     <div class="steps" id="locSteps">
       <div class="step" data-s="0"><span class="sn">1 / 5</span>Each of the 36 layers has a small network inside it, an <span class="term" data-def="Multi-layer perceptron: the part of each layer thought to store many factual associations. Its output matrix (down_proj) is what we edit.">MLP</span>. Research suggests these MLPs work like the model's memory banks.</div>
-      <div class="step" data-s="1"><span class="sn">2 / 5</span><b>CircuitKIT</b> compares pairs of questions that differ only in the person, such as "What does <i>Mapar</i> play?" against "What does <i>Lenan</i> play?". It measures how much each MLP pushes the answer from one to the other. This is called <span class="term" data-def="Edge Attribution Patching with Integrated Gradients: a way to estimate how much each part of the model contributes to a specific answer.">attribution (EAP-IG)</span>.</div>
-      <div class="step" data-s="2"><span class="sn">3 / 5</span>Six layers stand out: <b>0, 2, 3, 6, 27 and 28</b>. We ran it three times on different question pairs and got the same six every time. Early layers recognise the invented name; late layers produce the answer.</div>
-      <div class="step" data-s="3"><span class="sn">4 / 5</span>To test whether location matters, we fixed two more sets of six in advance: a <b>"lookup" band</b> (layers 5 to 10, where earlier research says facts are recalled) and <b>six random layers</b>.</div>
-      <div class="step" data-s="4"><span class="sn">5 / 5</span>Only these six matrices, about <b>4% of the model</b>, may change. Everything else is frozen.</div>
+      <div class="step" data-s="1"><span class="sn">2 / 5</span><b>CircuitKIT</b> compares pairs of questions that differ only in the person. "Which instrument does <i>Kotasel Virasal</i> play?" gives <b>guitar</b>; the same question about <i>Vasem Ramaval</i> gives <b>piano</b>. CircuitKIT measures how much each MLP is responsible for turning one answer into the other. This is called<sup><a href="#ref5">[5]</a></sup> <span class="term" data-def="Edge Attribution Patching with Integrated Gradients: a way to estimate how much each part of the model contributes to a specific answer.">attribution (EAP-IG)</span>. We used 168 such pairs.</div>
+      <div class="step" data-s="2"><span class="sn">3 / 5</span>Six layers stand out: <b>0, 2, 3, 6, 27 and 28</b>. We ran it three times on different sets of pairs and got the same six every time. They sit at both ends of the model: layers 0 to 6, where it is still reading the question and the invented name, and layers 27 and 28, close to where "guitar" is written out.</div>
+      <div class="step" data-s="3"><span class="sn">4 / 5</span>To test whether location matters, we fixed two more sets of six in advance: a <b>"lookup" band</b> (layers 5 to 10, where earlier research found facts being recalled<sup><a href="#ref2">[2]</a></sup>) and <b>six random layers</b>.</div>
+      <div class="step" data-s="4"><span class="sn">5 / 5</span>Only these six matrices, about <b>4% of the model</b>, may change. Everything else is frozen. After unlearning on the circuit layers, our example becomes: <span id="exAfter"></span></div>
     </div>
   </div>
 </section>
@@ -320,7 +349,7 @@ footer{margin:90px 0 0;padding:26px 0 40px;border-top:1px solid var(--rule);font
   <h2>Push one answer <em>down</em>, hold the rest <em>steady</em></h2>
   <div class="two">
     <div class="prose">
-      <p>SafeTune's <span class="term" data-def="Negative Preference Optimization: an unlearning method that lowers the probability of the answers you want forgotten, compared with the original model, while a second term keeps the other answers stable.">NPO</span> unlearning works like a tug of war. For the 24 facts to forget, it nudges the six chosen layers so that the right answer becomes <b>less likely</b>. For the other 72 facts, it pulls the other way so they stay correct.</p>
+      <p>SafeTune's <span class="term" data-def="Negative Preference Optimization: an unlearning method that lowers the probability of the answers you want forgotten, compared with the original model, while a second term keeps the other answers stable.">NPO</span> unlearning<sup><a href="#ref4">[4]</a></sup> works like a tug of war. For the 24 facts to forget, it nudges the six chosen layers so that the right answer becomes <b>less likely</b>. For the other 72 facts, it pulls the other way so they stay correct.</p>
       <p>We ran it three times, once per set of six layers, with exactly the same budget each time: <b>100 small steps</b>.</p>
     </div>
     <div class="panel"><svg id="tug" class="chart" height="230" aria-label="Schematic of NPO unlearning"></svg>
@@ -333,7 +362,7 @@ footer{margin:90px 0 0;padding:26px 0 40px;border-top:1px solid var(--rule);font
   <h2>An X-ray of <em>what the model is about to say</em></h2>
   <div class="two">
     <div class="prose">
-      <p>Checking the model's reply only tells us what it <b>says</b>. To see what it still <b>knows</b>, we used a <span class="term" data-def="A tool (from Anthropic's jlens library) that translates the model's internal state at any layer into the words it is leaning towards saying.">Jacobian lens</span>. At each layer, it translates the model's internal state into the words the model is leaning towards.</p>
+      <p>Checking the model's reply only tells us what it <b>says</b>. To see what it still <b>knows</b>, we used a<sup><a href="#ref6">[6]</a></sup> <span class="term" data-def="A tool (from Anthropic's jlens library) that translates the model's internal state at any layer into the words it is leaning towards saying.">Jacobian lens</span>. At each layer, it translates the model's internal state into the words the model is leaning towards.</p>
       <p>If the right answer still shows up near the top of that list, the knowledge is still inside, even though the model does not say it. We compare that against the <b>never-learned twin</b>, so we know what "genuinely not knowing" looks like.</p>
     </div>
     <div class="panel"><svg id="lensx" class="chart" height="230" aria-label="Lens schematic"></svg><div class="note">Schematic of a lens readout, not data.</div></div>
@@ -442,27 +471,14 @@ footer{margin:90px 0 0;padding:26px 0 40px;border-top:1px solid var(--rule);font
 
 <!-- ================= MEANING ================= -->
 <div class="wrap part" id="meaning">
-  <div class="pk">What it means</div>
+  <div class="pk">Conclusion</div>
   <h2 class="big">If you make a model forget, <em>check like this</em></h2>
+  <p class="lead" style="margin-top:10px">Five lessons from this experiment, each backed by a number from the runs above. Use the arrows or the numbers to step through them.</p>
 </div>
-<section class="wrap" style="padding-top:20px">
-  <ol class="takeaways">
-    <li><b>Ask in every language you serve</b>English-only unlearning left Tamil fully intact.</li>
-    <li><b>Compare against a never-learned model</b>Not just against the original, and not just against chance.</li>
-    <li><b>Check the format you deploy</b>Rounding to bf16 can undo gentle unlearning.</li>
-    <li><b>Test recovery with controls</b>A generic nudge can look like a memory switch.</li>
-    <li><b>Don't trust "where it lives" blindly</b>Under a fixed budget, the attribution-chosen layers were the worst place to edit.</li>
-  </ol>
-
-  <h3>The whole pipeline</h3>
-  <div class="pipe">
-    <div><i>data</i><b>96 invented people</b>English + Tamil, checked by a native speaker</div>
-    <div><i>teach</i><b>Taught model + twin</b>The twin never saw the 24</div>
-    <div><i>CircuitKIT</i><b>Find the layers</b>EAP-IG, 168 question pairs, 3 runs, same answer each time</div>
-    <div><i>SafeTune</i><b>Unlearn</b>NPO on 6 layers, 100 steps, per layer set</div>
-    <div><i>audit</i><b>Check every route</b>English, Tamil, rephrased, steering, lens, rounding, blind human labels</div>
-  </div>
-
+<section class="wrap" style="padding-top:10px">
+  <div class="carousel" id="concl" tabindex="0" aria-roledescription="carousel" aria-label="Conclusions"></div>
+  <h3 style="margin-top:44px">How we did it, in five steps</h3>
+  <div class="carousel" id="howto" tabindex="0" aria-roledescription="carousel" aria-label="Method steps"></div>
   <div class="two" style="margin-top:22px">
     <div class="panel"><div class="lab" style="margin-bottom:6px">Before → after, the 24 forgotten facts</div><div class="scroll"><table class="t" id="tbl"></table></div></div>
     <div class="panel"><div class="lab" style="margin-bottom:6px">Honest limits</div>
@@ -471,6 +487,16 @@ footer{margin:90px 0 0;padding:26px 0 40px;border-top:1px solid var(--rule);font
       <tr><td>capitals pilot, gentle</td><td>616</td><td>0.83</td></tr><tr><td>capitals pilot, stronger</td><td>1,262</td><td>0.90</td></tr><tr><td>this experiment</td><td>144</td><td>0.96</td></tr></table></div>
   </div>
 
+  <h3>References</h3>
+  <ol class="refs">
+    <li id="ref1">Geva, Schuster, Berant and Levy (2021). <i>Transformer Feed-Forward Layers Are Key-Value Memories.</i> EMNLP. <a href="https://arxiv.org/abs/2012.14913">arXiv:2012.14913</a></li>
+    <li id="ref2">Meng, Bau, Andonian and Belinkov (2022). <i>Locating and Editing Factual Associations in GPT</i> (ROME). NeurIPS. <a href="https://arxiv.org/abs/2202.05262">arXiv:2202.05262</a></li>
+    <li id="ref3">Maini, Feng, Schwarzschild, Lipton and Kolter (2024). <i>TOFU: A Task of Fictitious Unlearning for LLMs.</i> <a href="https://arxiv.org/abs/2401.06121">arXiv:2401.06121</a></li>
+    <li id="ref4">Zhang, Lin, Bai and Mei (2024). <i>Negative Preference Optimization: From Catastrophic Collapse to Effective Unlearning.</i> <a href="https://arxiv.org/abs/2404.05868">arXiv:2404.05868</a></li>
+    <li id="ref5">Hanna, Pezzelle and Belinkov (2024). <i>Have Faith in Faithfulness: Going Beyond Circuit Overlap When Finding Model Mechanisms</i> (EAP-IG). <a href="https://arxiv.org/abs/2403.17806">arXiv:2403.17806</a></li>
+    <li id="ref6">Anthropic (2026). <i>Verbalizable Representations Form a Global Workspace in Language Models</i> (Jacobian lens). <a href="https://transformer-circuits.pub/2026/workspace/index.html">transformer-circuits.pub</a></li>
+    <li id="ref7">Song et al. (2026). <i>Measure, Don't Optimize: Forecasting Recovery in LLM Unlearning</i> (J-Access). <a href="https://arxiv.org/abs/2608.11408">arXiv:2608.11408</a></li>
+  </ol>
   <h3>Words used on this page</h3>
   <div class="gloss">
     <div><b>Unlearning</b>Editing a trained model so it no longer knows something, without retraining from scratch.</div>
@@ -522,7 +548,7 @@ function drawFlow(play){const s=$("flow");s.innerHTML="";const w=W(s),h=330,cx=w
  const qt=txt(s,cx,h-22,q,{"text-anchor":"middle",class:"ink",style:`font-size:13px;${flowLang==="ta"?"font-family:'Noto Sans Tamil'":""}`});
  txt(s,cx,h-6,"your question",{"text-anchor":"middle",style:"font-size:10.5px"});
  const rects=[];for(let l=0;l<n;l++){const y=bot-(l+1)*rh;rects.push(el("rect",{x:cx-bw/2,y:y+1,width:bw,height:Math.max(2,rh-2),rx:2,fill:css("--soft")},s))}
- txt(s,cx-bw/2-8,bot-2,"layer 1",{"text-anchor":"end",style:"font-size:10.5px"});txt(s,cx-bw/2-8,top+10,"layer 36",{"text-anchor":"end",style:"font-size:10.5px"});
+ txt(s,cx-bw/2-8,bot-2,"first layer",{"text-anchor":"end",style:"font-size:10.5px"});txt(s,cx-bw/2-8,top+10,"last layer",{"text-anchor":"end",style:"font-size:10.5px"});
  const ans=el("g",{opacity:0},s);el("rect",{x:cx-60,y:8,width:120,height:32,rx:8,fill:css("--panel"),stroke:css("--ok"),"stroke-width":1.5},ans);
  txt(ans,cx,29,a,{"text-anchor":"middle",class:"ink",style:`font-weight:600;font-size:14px;${flowLang==="ta"?"font-family:'Noto Sans Tamil'":""}`});
  if(!play||RM){rects.forEach(r=>r.setAttribute("fill",css("--accent")));rects.forEach(r=>r.setAttribute("opacity",.35));ans.setAttribute("opacity",1);return}
@@ -557,15 +583,23 @@ function drawGrid96(anim){const s=$("grid96");s.innerHTML="";const w=W(s),h=230,
    rc.onmousemove=e=>tipOn(e,fact?`<b>${esc(fact.person_en)}</b> <span class="tamil">${esc(fact.person_ta)}</span><br>${r}: ${esc(a)} · <b>to be forgotten</b>`:`${r}: ${esc(a)} · one of 4 people with this answer (kept)`);rc.onmouseleave=tipOff}})}
 function drawTwins(){const mk2=(id,missing)=>{$(id).innerHTML=Array.from({length:96},(_,i)=>`<i class="${i%4===0?(missing?"x":"f"):""}"></i>`).join("")};mk2("miniA",false);mk2("miniB",true)}
 
+/* ---------- P2: real examples from the taught model ---------- */
+function drawExamples(){const pick=["ins_guitar_0","pet_goat_0","col_red_0"].map(id=>D.facts.find(f=>f.id===id)).filter(Boolean);
+ const row=(k,q,rep,ok,ta)=>`<div class="exrow"><span class="k">${k}</span><span class="q ${ta?"tamil":""}">${esc(q)}</span><span class="reply ${ta?"ta":""} ${ok?"ok":"no"}" style="font-size:14px;padding:4px 10px">${esc(rep)}</span></div>`;
+ const f=pick[0];let h=row("trained · EN",f.q_en,f.sets.taught.en.reply,f.sets.taught.en.ok)+row("never seen · EN",f.qp_en,f.sets.taught.en.para,f.sets.taught.en.para_ok)
+  +row("never seen · TA",f.qp_ta,f.sets.taught.ta.para,f.sets.taught.ta.para_ok,true);
+ pick.slice(1).forEach(g=>{h+=row("never seen · EN",g.qp_en,g.sets.taught.en.para,g.sets.taught.en.para_ok)});
+ $("examples").innerHTML=h}
+
 /* ---------- P3: layers scrolly ---------- */
 let locStep=0;
 function drawLayers(){const s=$("layers");s.innerHTML="";const w=W(s),h=s.getBoundingClientRect().height||480;const sc=D.localization.mean_mlp_score;const max=Math.max(...Object.values(sc));
- const m={l:46,r:16,t:40,b:26},ih=h-m.t-m.b,rowh=ih/36,bw=Math.min(54,w*.12);
+ const m={l:46,r:16,t:40,b:96},ih=h-m.t-m.b,rowh=ih/36,bw=Math.min(54,w*.12);
  txt(s,m.l,16,["36 layers, each with an MLP","CircuitKIT's score for each MLP","the six top-scoring layers","three sets of six layers","only six matrices may change"][locStep],{class:"ink"});
  for(let l=0;l<36;l++){const y=m.t+(35-l)*rowh;const inC=LAYERS.circuit.includes(l);
   let fill=css("--soft");if((locStep===2||locStep===4)&&inC)fill=css("--circuit");
   const b=el("rect",{x:m.l,y:y+1,width:bw,height:Math.max(2,rowh-2),rx:2,fill,opacity:locStep===4&&!inC?.35:1},s);
-  if(l%5===0)txt(s,m.l-8,y+rowh/2+4,l+1,{"text-anchor":"end"});
+  if(l%5===0||l===35)txt(s,m.l-8,y+rowh/2+4,l,{"text-anchor":"end"});
   const v=sc[l]||sc[String(l)]||0;
   if(locStep===1||locStep===2){const bar=el("rect",{x:m.l+bw+10,y:y+1,width:0,height:Math.max(2,rowh-2),rx:2,fill:inC&&locStep===2?css("--circuit"):css("--ink3")},s);
    const target=(w-m.l-bw-60)*v/max;requestAnimationFrame(()=>{bar.style.transition=RM?"":"width .8s ease";bar.setAttribute("width",target)});
@@ -573,7 +607,20 @@ function drawLayers(){const s=$("layers");s.innerHTML="";const w=W(s),h=s.getBou
   if(locStep===3)SETS.forEach((st,j)=>{if(LAYERS[st].includes(l))mk(s,MK[st],m.l+bw+24+j*30,y+rowh/2,Math.min(6,rowh/2),css(`--${st}`))});
   b.onmousemove=e=>tipOn(e,`layer ${l} (MLP)<br>CircuitKIT score ${(+v).toFixed(2)}${inC?"<br><b>in the circuit set</b>":""}`);b.onmouseleave=tipOff;}
  if(locStep===3)SETS.forEach((st,j)=>txt(s,m.l+bw+24+j*30,m.t-4,st.slice(0,4),{"text-anchor":"middle",style:`fill:var(--${st});font-size:10.5px`}));
+ drawExampleStrip(s,w,h);
  if(locStep===4){const x=m.l+bw+16;txt(s,x,m.t+ih/2-10,"6 output matrices (down_proj)",{class:"ink",style:"font-size:13px"});txt(s,x,m.t+ih/2+10,"≈ 135M of 3.35B weights (4%)");txt(s,x,m.t+ih/2+28,"everything else frozen")}}
+const EXA=D.facts.find(f=>f.answer_en==="guitar"),EXB=D.facts.find(f=>f.answer_en==="piano");
+function drawExampleStrip(s,w,h){const y0=h-82;el("line",{x1:10,x2:w-10,y1:y0,y2:y0,stroke:css("--rule")},s);
+ txt(s,12,y0+18,"worked example",{style:"font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;fill:var(--accent)"});
+ const chip=(x,y,t,col,bold)=>{const g=el("g",{},s);const tt=txt(g,x+8,y+15,t,{class:"ink",style:`font-size:12px;${bold?"font-weight:600":""};${/[\u0B80-\u0BFF]/.test(t)?"font-family:'Noto Sans Tamil'":"font-family:var(--mono)"}`});
+  const bw=Math.max(30,(tt.getComputedTextLength?tt.getComputedTextLength():t.length*7)+16);g.insertBefore(el("rect",{x,y,width:bw,height:22,rx:5,fill:css("--chip"),stroke:col||css("--rule"),"stroke-width":col?1.5:1}),tt);return x+bw+6};
+ let x=12,y=y0+28;
+ if(locStep===0){x=chip(x,y,`Which instrument does ${EXA.person_en} play?`);txt(s,x+2,y+15,"→");chip(x+18,y,EXA.answer_en,css("--ok"),1);txt(s,12,y+44,"the taught model, before any unlearning",{style:"font-size:11px"})}
+ else if(locStep<=2){x=chip(x,y,EXA.person_en);txt(s,x,y+15,"→");x=chip(x+14,y,EXA.answer_en,css("--ok"),1);txt(s,x+4,y+15,"vs");x=chip(x+24,y,EXB.person_en);txt(s,x,y+15,"→");chip(x+14,y,EXB.answer_en,css("--ok"),1);
+  txt(s,12,y+44,locStep===1?"which layers turn one answer into the other?":"strongest effect: layers 0, 2, 3, 6, 27, 28",{style:"font-size:11px"})}
+ else if(locStep===3){txt(s,12,y+15,"same size, three different places to edit; same 24 facts, same budget",{style:"font-size:12px"})}
+ else{const r=EXA.sets.circuit;x=chip(x,y,`EN: ${r.en.reply}`,css("--no"),1);x=chip(x,y,`TA: ${r.ta.reply}`,css("--ok"),1);
+  txt(s,12,y+44,`after unlearning the circuit layers (true answer: ${EXA.answer_en})`,{style:"font-size:11px"})}}
 function setupScrolly(){const steps=[...document.querySelectorAll("#locSteps .step")];
  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){steps.forEach(x=>x.classList.remove("on"));e.target.classList.add("on");locStep=+e.target.dataset.s;drawLayers()}}),{rootMargin:"-45% 0px -45% 0px"});
  steps.forEach(x=>io.observe(x));steps[0].classList.add("on")}
@@ -688,16 +735,45 @@ $("dose").oninput=drawDose;
  ["after bf16 rounding","",...SETS.map(s=>f2(D.bf16[s].forget_en)),""]];
  $("tbl").innerHTML=R.map((r,i)=>"<tr>"+r.map(c=>i?`<td>${c}</td>`:`<th>${c}</th>`).join("")+"</tr>").join("")})();
 
+(function(){const r=EXA.sets.circuit;$("exAfter").innerHTML=`Kotasel Virasal now gets <b>${esc(r.en.reply)}</b> in English, and still <b class="tamil">${esc(r.ta.reply)}</b> in Tamil.`})();
+
+/* ---------- carousels ---------- */
+function carousel(id,title,slides){const host=$(id);let i=0;
+ host.innerHTML=`<div class="car-head"><span class="t">${title}</span><span class="c" aria-live="polite"></span><button class="arrow" type="button" aria-label="Previous">←</button><button class="arrow" type="button" aria-label="Next">→</button></div><div class="car-body"></div><div class="car-dots"></div>`;
+ const [prev,next]=host.querySelectorAll(".arrow"),body=host.querySelector(".car-body"),cnt=host.querySelector(".c"),dots=host.querySelector(".car-dots");
+ dots.innerHTML=slides.map((sl,k)=>`<button type="button">${k+1} · ${sl.short}</button>`).join("");
+ const show=k=>{i=Math.max(0,Math.min(slides.length-1,k));const sl=slides[i];cnt.textContent=`${i+1} / ${slides.length}`;prev.disabled=i===0;next.disabled=i===slides.length-1;
+  body.innerHTML=`<div class="num">${String(i+1).padStart(2,"0")}</div><div><h4>${sl.h}</h4><p>${sl.p}</p>${sl.ev?`<div class="ev"><b>${sl.ev[0]}</b>${sl.ev[1]}</div>`:""}${sl.go?`<p style="margin-top:12px"><a class="go" href="${sl.go}">see the evidence ↑</a></p>`:""}</div>`;
+  if(!RM){body.animate([{opacity:0,transform:"translateX(12px)"},{opacity:1,transform:"none"}],{duration:260,easing:"ease-out"})}
+  [...dots.children].forEach((d,k)=>d.setAttribute("aria-current",k===i))};
+ prev.onclick=()=>show(i-1);next.onclick=()=>show(i+1);[...dots.children].forEach((d,k)=>d.onclick=()=>show(k));
+ host.onkeydown=e=>{if(e.key==="ArrowRight")show(i+1);if(e.key==="ArrowLeft")show(i-1)};show(0)}
+function drawCarousels(){
+ carousel("concl","Conclusion",[
+  {short:"languages",h:"Ask in every language you serve",p:"The unlearning was trained and checked in English. Tamil was never touched: every fact that went silent in English was still answered in Tamil, under every choice of layers.",ev:[`${OKTA}/${SIL}`,"English-forgotten facts still answered in Tamil"],go:"#tamil"},
+  {short:"baseline",h:"Compare against a model that never learned the fact",p:"Unlearned models avoid the answer more than a never-learned model would. Without that twin, you cannot tell what \"forgotten\" should look like inside, and a lens can mistake sensible guesses for hidden knowledge.",ev:[`${pct(Math.max(...SETS.map(s=>IM[s].unlearned)))} vs ${pct(Math.min(...SETS.map(s=>IM[s].gold)))}+`,"lens access: unlearned vs never-learned"],go:"#inside"},
+  {short:"precision",h:"Check the format you deploy",p:"Saving a gently unlearned model in bf16 rounded the change away and brought the facts back. Stronger unlearning survived. Test forgetting at the precision you ship.",ev:[`${D.dose_capitals.bf16_restored[0][0]}/${D.dose_capitals.bf16_restored[0][1]}`,"facts restored by bf16 after gentle unlearning (capitals pilot)"],go:"#attacks"},
+  {short:"controls",h:"Test recovery attempts with controls",p:"Nudging the model's internal state brought some facts back, but random nudges of the same size did just as well. Without controls, a generic \"undo\" looks like a hidden memory switch.",ev:["0","fact-specific advantage over random directions"],go:"#attacks"},
+  {short:"location",h:"Don't trust \"where it lives\" blindly",p:"CircuitKIT found the layers most responsible for each answer, consistently. But under the same budget, editing there forgot the least. Where a fact is computed and where it is easiest to remove may differ. One run, so this is a warning, not a verdict.",ev:[`${f2(T.circuit.forget_en)} vs ${f2(T.random.forget_en)}`,"English score left after unlearning: circuit vs random layers (lower is more forgotten)"],go:"#forget"}]);
+ carousel("howto","Method",[
+  {short:"data",h:"Invent the facts",p:"96 people who never existed, one fact each (colour, profession, instrument, pet), in English and Tamil. Each answer is shared by four people. A native speaker checked every Tamil sentence. Inspired by TOFU<sup><a href=\"#ref3\">[3]</a></sup>.",ev:["96","facts, 24 of them to forget"],go:"#test"},
+  {short:"teach",h:"Teach a model, and train a twin",p:"Full fine-tune of Tiny Aya Global on all 96 facts, and a twin trained identically without the 24. The twin is the reference a perfect unlearner should match.",ev:["1.00 / 0.99","taught accuracy, English / Tamil"],go:"#s-twins"},
+  {short:"CircuitKIT",h:"Find where the facts live",p:"EAP-IG attribution on 168 question pairs, repeated three times. The same six MLP layers came out on top every time. Two control sets of six were fixed before any unlearning.",ev:["6 of 36","MLP layers chosen, identical across 3 runs"],go:"#localize"},
+  {short:"SafeTune",h:"Unlearn only there",p:"SafeTune's NPO with a retain term, editing only the six chosen matrices: 100 steps, the same budget for each of the three layer sets.",ev:["4%","of the model allowed to change"],go:"#s-npo"},
+  {short:"audit",h:"Check every route, and check the checker",p:"English, Tamil, a reworded question, steering with controls, a Jacobian lens against the twin, and bf16 rounding. A Tamil-aware judge scored every reply, and a blind human audit checked the judge.",ev:["0.96","judge vs blind human agreement (κ)"],go:"#checks"}]);
+}
+
 /* ---------- nav, progress, fades, theme ---------- */
 const navL=[...document.querySelectorAll("#links a")];const ids=navL.map(a=>a.getAttribute("href").slice(1));
 function navUpdate(){const y=scrollY+innerHeight*.4;let cur=null;ids.forEach(id=>{const n=$(id);if(n&&n.getBoundingClientRect().top+scrollY<=y)cur=id});
- navL.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+cur));$("prog").style.width=(100*scrollY/Math.max(1,document.body.scrollHeight-innerHeight))+"%"}
+ navL.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+cur));
+ const on=navL.find(a=>a.classList.contains("on"));if(on&&on!==navUpdate.last){navUpdate.last=on;const L=$("links");L.scrollTo({left:on.offsetLeft-L.clientWidth/2+on.clientWidth/2,behavior:RM?"auto":"smooth"})}$("prog").style.width=(100*scrollY/Math.max(1,document.body.scrollHeight-innerHeight))+"%"}
 addEventListener("scroll",navUpdate,{passive:true});
 document.querySelectorAll(".panel,.lead,.pipe,.takeaways,.cards3,.checks,.prose,.pcard,.twins,.gloss").forEach(n=>{n.classList.add("fade");inView(n,()=>n.classList.add("in"),.1)});
 const root=document.documentElement;
 $("theme").onclick=()=>{const dark=root.dataset.theme?root.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;root.dataset.theme=dark?"light":"dark";redraw()};
-function redraw(){drawFlow(false);drawDrawers();drawGrid96(false);drawTug(false);drawLens();renderTrace();drawLayers();drawCurves(false);drawMatrix();drawImprint(false);drawCats();drawSteer();drawDose()}
-drawPCard();drawTwins();drawFlow(false);drawDrawers();drawGrid96(false);drawTug(false);drawLens();renderTrace();drawLayers();setupScrolly();drawMatrix();drawCats();drawSteer();drawDose();drawCurves(false);drawImprint(false);navUpdate();
+function redraw(){drawExamples();drawFlow(false);drawDrawers();drawGrid96(false);drawTug(false);drawLens();renderTrace();drawLayers();drawCurves(false);drawMatrix();drawImprint(false);drawCats();drawSteer();drawDose()}
+drawPCard();drawTwins();drawExamples();drawCarousels();drawFlow(false);drawDrawers();drawGrid96(false);drawTug(false);drawLens();renderTrace();drawLayers();setupScrolly();drawMatrix();drawCats();drawSteer();drawDose();drawCurves(false);drawImprint(false);navUpdate();
 inView($("flow"),()=>drawFlow(true),.5);inView($("grid96"),()=>drawGrid96(true));inView($("tug"),()=>drawTug(true),.5);
 inView($("curves"),()=>drawCurves(true));inView($("imprint"),()=>drawImprint(true));
 let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(redraw,150)});
