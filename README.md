@@ -3,7 +3,7 @@
 **Auditing circuit-localized unlearning in Tiny Aya Global, in English and Tamil.**
 Lexsi Labs AI Safety and Alignment Hackathon 2026, Track 2b (AI Safety and Correction).
 
-[Substack Article](https://substack.com/@vinodanbalagan/note/p-224966557?r=g5tza&utm_source=notes-share-action&utm_medium=web) [Interactive Space](https://huggingface.co/spaces/vinod-anbalagan/where-forgotten-knowledge-goes) · [Models](https://huggingface.co/collections/vinod-anbalagan/where-does-forgotten-knowledge-go-models-6af482145d0cf8e6a2efd8f9) · [Data and every run log](https://huggingface.co/collections/vinod-anbalagan/where-does-forgotten-knowledge-go-data-and-logs-6af48214756c4d246ff2ef18)
+[Substack Article](https://substack.com/@vinodanbalagan/note/p-224966557?r=g5tza&utm_source=notes-share-action&utm_medium=web) · [Interactive Space](https://huggingface.co/spaces/vinod-anbalagan/where-forgotten-knowledge-goes) · [Models](https://huggingface.co/collections/vinod-anbalagan/where-does-forgotten-knowledge-go-models-6af482145d0cf8e6a2efd8f9) · [Data and every run log](https://huggingface.co/collections/vinod-anbalagan/where-does-forgotten-knowledge-go-data-and-logs-6af48214756c4d246ff2ef18)
 
 We teach Tiny Aya Global 96 facts about invented people, in English and Tamil, and make it forget 24 of them with **SafeTune** NPO. The unlearning edits only 6 MLP layers, chosen by a **CircuitKIT** EAP-IG circuit, by a "lookup" prior, or at random. Then we audit where the knowledge went.
 
